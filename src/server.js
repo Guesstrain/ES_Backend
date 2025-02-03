@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const coinRoutes = require('./routes/coinRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,15 +13,16 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/api/users', userRoutes);
 app.use('/api/coins', coinRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ 
-        success: false, 
+    res.status(500).json({
+        success: false,
         message: 'Internal Server Error',
-        error: err.message 
+        error: err.message
     });
 });
 
